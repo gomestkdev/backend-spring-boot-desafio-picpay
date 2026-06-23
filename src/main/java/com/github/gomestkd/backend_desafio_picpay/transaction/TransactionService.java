@@ -43,11 +43,11 @@ public class TransactionService {
         var transactionSaved = transactionRepository.save(transaction);
 
         // Update payer's wallet balance - Debit the amount from the payer's wallet
-        var walletSaved = walletRepository.findById(
-            transaction.payer()
-        ).orElseThrow();
-
-        walletRepository.save(walletSaved.debit(transaction.value()));
+        var walletPayer = walletRepository.findById(transaction.payer()).get();
+        var walletPayee = walletRepository.findById(transaction.payee()).get();
+        
+        walletRepository.save(walletPayer.debit(transaction.value()));
+        walletRepository.save(walletPayee.credit(transaction.value()));
 
         // Authorization transaction
         authorizationService.authorizeTransaction(transactionSaved);
