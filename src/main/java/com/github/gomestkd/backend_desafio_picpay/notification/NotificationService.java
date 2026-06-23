@@ -6,8 +6,13 @@ import com.github.gomestkd.backend_desafio_picpay.transaction.Transaction;
 
 @Service
 public class NotificationService {
+    private final NotificationProducer notificationProducer;
+
+    public NotificationService(NotificationProducer notificationProducer) {
+        this.notificationProducer = notificationProducer;
+    }
+
     public void notifyTransaction(Transaction transaction) {
-        
-        System.out.println("Notification sent for transaction: " + transaction);
+        notificationProducer.sendNotification(transaction);
     }
 }
