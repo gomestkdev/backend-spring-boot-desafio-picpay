@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.gomestkd.backend_desafio_picpay.authorization.AuthorizeService;
-import com.github.gomestkd.backend_desafio_picpay.exception.InvalidTransactionException;
+import com.github.gomestkd.backend_desafio_picpay.notification.NotificationService;
 import com.github.gomestkd.backend_desafio_picpay.wallet.Wallet;
 import com.github.gomestkd.backend_desafio_picpay.wallet.WalletRepository;
 import com.github.gomestkd.backend_desafio_picpay.wallet.WalletType;
@@ -14,11 +14,18 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final WalletRepository walletRepository;
     private final AuthorizeService authorizationService;
+    private final NotificationService notificationService;
 
-    public TransactionService(TransactionRepository transactionRepository, WalletRepository walletRepository, AuthorizeService authorizationService) {
+    public TransactionService(
+        TransactionRepository transactionRepository, 
+        WalletRepository walletRepository, 
+        AuthorizeService authorizationService, 
+        NotificationService notificationService
+    ) {
         this.transactionRepository = transactionRepository;
         this.walletRepository = walletRepository;
         this.authorizationService = authorizationService;
+        this.notificationService = notificationService;
     }
 
     @Transactional
@@ -38,7 +45,9 @@ public class TransactionService {
 
         // Authorization transaction
         authorizationService.authorizeTransaction(transactionSaved);
-        
+
+        // notification
+        notificationService.notifyTransaction(transactionSaved);
         return transactionSaved;
     }
 

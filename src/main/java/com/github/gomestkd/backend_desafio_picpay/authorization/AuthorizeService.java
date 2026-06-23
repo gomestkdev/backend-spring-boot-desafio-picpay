@@ -3,8 +3,8 @@ package com.github.gomestkd.backend_desafio_picpay.authorization;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-import com.github.gomestkd.backend_desafio_picpay.exception.UnauthorizedTransaction;
 import com.github.gomestkd.backend_desafio_picpay.transaction.Transaction;
+import com.github.gomestkd.backend_desafio_picpay.transaction.UnauthorizedTransaction;
 
 @Service
 public class AuthorizeService {
