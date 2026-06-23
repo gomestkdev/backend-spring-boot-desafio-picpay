@@ -1,5 +1,7 @@
 package com.github.gomestkd.backend_desafio_picpay.transaction;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,10 @@ public class TransactionService {
         this.walletRepository = walletRepository;
         this.authorizationService = authorizationService;
         this.notificationService = notificationService;
+    }
+
+    public List<Transaction> getAllTransactions() {
+        return transactionRepository.findAll();
     }
 
     @Transactional
